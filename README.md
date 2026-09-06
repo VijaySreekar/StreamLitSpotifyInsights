@@ -1,18 +1,18 @@
 # Spotify Insights
 
-Explore a listening-history export through artist rankings, track counts, and patterns across days and hours. Built by [VijaySreekar](https://github.com/VijaySreekar) and [GanapathiThota](https://github.com/GanapathiThota).
+Find your most-played artists and tracks, and see when you listen to music, using a Spotify listening-history export. Built by [VijaySreekar](https://github.com/VijaySreekar) and [GanapathiThota](https://github.com/GanapathiThota).
 
 [Run locally](#run-locally) · [Sample data](sample_data/README.md)
 
 ![Spotify Insights showing analysis of fictional listening history](docs/images/spotify-analysis.png)
 
-*Application capture using the included fictional dataset. Artists, tracks, and listening history are sample data.*
+*Screenshot using the included fictional listening history.*
 
 ## Try it
 
 Run the app locally using the instructions below, then select **Explore a fictional demo dataset** in the sidebar. This loads 714 fictional plays without requiring an upload. Turn the option off to analyze your own JSON or CSV file.
 
-The legacy [hosted app](https://appspotifyinsights-zdr4w9e8yfszel8mxq275p.streamlit.app/) was still serving an older version with a dependency error when checked on 6 September 2026. The startup repair and demo option are in this repository; the hosted deployment needs to pick up the current code. Use the local setup for now.
+The [hosted app](https://appspotifyinsights-zdr4w9e8yfszel8mxq275p.streamlit.app/) needs redeploying: it still showed an old dependency error when checked on 6 September 2026. Use the local setup for now.
 
 ## What you can explore
 
@@ -37,7 +37,7 @@ Data loading uses Streamlit's cache. This application analyzes uploaded exports;
 
 ## Run locally
 
-Use Python 3.12, which was used for the current smoke check.
+Tested with Python 3.12.
 
 ```bash
 git clone https://github.com/VijaySreekar/StreamLitSpotifyInsights.git
@@ -90,14 +90,14 @@ A CSV file uses these names as its header row. Exports using other schemas need 
 
 ## Current limitations
 
-This is an exploratory analysis project. It expects a non-empty dataset with valid timestamps and the fields required by the selected analysis. Missing artist, track, or duration fields can prevent some views from running. Duration calculations are intended for individual song plays; audit the conversion before using unusual long-duration records. Charts describe the uploaded data and are not a statement about Spotify's full catalogue.
+The app expects valid timestamps and the fields listed above. Missing artist, track, or duration fields can break individual views. Duration calculations were built for song plays and need checking before analysing unusually long recordings.
 
 For personal listening history, run locally if you do not want to upload it to the hosted application.
 
 ## Validation
 
-The empty state, demo selection, all five analysis options, and return to the empty state were smoke-checked using Streamlit's app testing interface. These checks cover the included sample dataset; they do not establish support for every Spotify export format.
+Checked with Streamlit's app testing interface: empty state, demo selection, all five analysis views, and switching back to the empty state. These checks use the bundled sample data.
 
 ## Contributing
 
-For a bug report, include the failing analysis and a small synthetic example that reproduces it. Avoid attaching personal listening history. For changes, describe the behavior and how you checked it, and preserve the project’s coauthor credit.
+For a bug report, include the failing analysis and a small synthetic example that reproduces it. Avoid attaching personal listening history. For code changes, include a short explanation and how you tested them.
