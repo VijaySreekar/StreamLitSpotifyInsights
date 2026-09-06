@@ -2,7 +2,7 @@
 
 Explore a listening-history export through artist rankings, track counts, and patterns across days and hours. Built by [VijaySreekar](https://github.com/VijaySreekar) and [GanapathiThota](https://github.com/GanapathiThota).
 
-[Open the app](https://appspotifyinsights-zdr4w9e8yfszel8mxq275p.streamlit.app/) · [Run locally](#run-locally) · [Sample data](sample_data/README.md)
+[Run locally](#run-locally) · [Sample data](sample_data/README.md)
 
 ![Spotify Insights showing analysis of fictional listening history](docs/images/spotify-analysis.png)
 
@@ -10,9 +10,9 @@ Explore a listening-history export through artist rankings, track counts, and pa
 
 ## Try it
 
-Open the app and select **Explore a fictional demo dataset** in the sidebar. This loads 714 fictional plays without requiring an upload. Turn the option off to analyze your own JSON or CSV file.
+Run the app locally using the instructions below, then select **Explore a fictional demo dataset** in the sidebar. This loads 714 fictional plays without requiring an upload. Turn the option off to analyze your own JSON or CSV file.
 
-The hosted app may sleep after inactivity. Use its wake-up button if prompted, or run the project locally.
+The legacy [hosted app](https://appspotifyinsights-zdr4w9e8yfszel8mxq275p.streamlit.app/) was still serving an older version with a dependency error when checked on 6 September 2026. The startup repair and demo option are in this repository; the hosted deployment needs to pick up the current code. Use the local setup for now.
 
 ## What you can explore
 
