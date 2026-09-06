@@ -1,94 +1,103 @@
-# 🎧 Spotify Insights: Exploratory Data Analysis
+# Spotify Insights
 
+Explore a listening-history export through artist rankings, track counts, and patterns across days and hours. Built by [VijaySreekar](https://github.com/VijaySreekar) and [GanapathiThota](https://github.com/GanapathiThota).
 
-Welcome to **Spotify Insights** – an interactive web application designed to help you delve deep into your Spotify streaming history. Analyze your listening habits, discover your favorite artists and tracks, and visualize your music journey like never before! 🚀
+[Open the app](https://appspotifyinsights-zdr4w9e8yfszel8mxq275p.streamlit.app/) · [Run locally](#run-locally) · [Sample data](sample_data/README.md)
 
-![Streamlit](https://img.shields.io/badge/Streamlit-1.0.0-blue?logo=streamlit) ![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python) ![License](https://img.shields.io/badge/License-MIT-green)
+![Spotify Insights showing analysis of fictional listening history](docs/images/spotify-analysis.png)
 
-## 🌟 Features
+*Application capture using the included fictional dataset. Artists, tracks, and listening history are sample data.*
 
-- **📊 Comprehensive Data Analysis:** Gain insights into your listening patterns over time.
-- **🎤 Artist Analysis:** Discover your top artists by play count and listening time.
-- **🎶 Track Analysis:** Uncover your most-listened-to tracks and explore unique tracks.
-- **📅 Day-wise & ⏰ Hourly Usage:** Visualize your Spotify usage across different days and hours.
-- **📈 Listening Time Statistics:** Calculate total listening time and average songs played daily.
-- **☁️ Cloud Deployment:** Accessible anytime via Streamlit Cloud!
-- **🖼️ Beautiful Visualizations:** Interactive and aesthetically pleasing charts and word clouds.
-- **🔄 Data Upload:** Easily upload your own Spotify Streaming History in JSON or CSV formats.
-## 🚀 Live Demo
+## Try it
 
-Experience Spotify Insights in action! Click the button below to explore your own Spotify data.
+Open the app and select **Explore a fictional demo dataset** in the sidebar. This loads 714 fictional plays without requiring an upload. Turn the option off to analyze your own JSON or CSV file.
 
-[👉 Access the Live App](https://appspotifyinsights-zdr4w9e8yfszel8mxq275p.streamlit.app/)
+The hosted app may sleep after inactivity. Use its wake-up button if prompted, or run the project locally.
 
-## 🛠️ Installation
+## What you can explore
 
-To run **Spotify Insights** locally on your machine, follow these steps:
+- **Artist analysis:** unique artists, play counts, listening time, and word clouds.
+- **Track analysis:** frequently played tracks and unique-track counts.
+- **Day-wise usage:** listening patterns across days of the week.
+- **Hourly usage:** activity across hours of the day.
+- **Listening time:** totals and daily patterns derived from play durations.
 
-### 1. Clone the Repository
+The sidebar switches between analyses. The page also displays the cleaned data and a statistical overview so the input behind the charts can be inspected.
 
-```bash
-git clone https://github.com/yourusername/spotify-insights.git
-cd spotify-insights
-```
+## How it works
 
-### 2. Create a Virtual Environment
+`app.py` contains the Streamlit interface and analysis pipeline:
 
-```bash
-python3 -m venv venv
-```
+1. Read a JSON or CSV export using pandas. CSV uploads support comma, tab, semicolon, or a custom delimiter.
+2. Normalize a supported timestamp column and derive year, month, day, weekday, and hour.
+3. Convert play duration from milliseconds into listening-time fields.
+4. Group the data by artist, track, day, or hour and render tables and charts with Matplotlib, Seaborn, and WordCloud.
 
-Activate the virtual environment:
+Data loading uses Streamlit's cache. This application analyzes uploaded exports; it does not connect to a Spotify account or request Spotify API credentials.
 
-- **Windows:** `venv\Scripts\activate`
-- **macOS/Linux:** `source venv/bin/activate`
+## Run locally
 
-### 3. Install the Required Libraries
+Use Python 3.12, which was used for the current smoke check.
 
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/VijaySreekar/StreamLitSpotifyInsights.git
+cd StreamLitSpotifyInsights
+python3 -m venv .venv
 ```
 
-### 4. Run the StreamLitApp
+Activate the environment:
 
 ```bash
-streamlit run app.py
+# macOS / Linux
+source .venv/bin/activate
+
+# Windows PowerShell
+.venv\Scripts\Activate.ps1
 ```
 
-### 5. Access the Local Web App
+Install dependencies and start the app:
 
-Open your browser and visit `http://localhost:8501` to access the web application.
+```bash
+python -m pip install -r requirements.txt
+python -m streamlit run app.py
+```
 
-## 📁 Usage
+Open the local URL printed in the terminal, then select the fictional demo dataset.
 
-#### 1. Upload Your Data:
+## Input format
 
-- Click on the sidebar's "Upload Your Spotify Streaming History" section.
-- Upload your Spotify data in JSON or CSV format.
-- If uploading a CSV file, select the appropriate delimiter (Comma, Tab, Semicolon, or specify a custom one).
+For all analyses, include an artist, track, timestamp, and duration. This example is fictional:
 
-#### 2. Explore the Insights:
+```json
+[
+  {
+    "endTime": "2026-01-01 18:30",
+    "artistName": "Harbour Lights",
+    "trackName": "Blue Hour",
+    "msPlayed": 210000
+  }
+]
+```
 
-- Toggle the "Show Raw Data" checkbox to preview your data
-- Navigate through the "Visualization Options" in the sidebar to explore different analyses.
+| Field | Accepted names |
+| --- | --- |
+| Timestamp | `endTime`, `Play Time`, `timestamp`, or `dateTime` |
+| Duration in milliseconds | `msPlayed`, `Duration_ms`, or `duration_ms` |
+| Artist | `artistName` |
+| Track | `trackName` |
 
-#### 3. Visualize Insights:
+A CSV file uses these names as its header row. Exports using other schemas need conversion first.
 
-- Artist Analysis: View your top artists by play count and listening time.
-- Track Analysis: Discover your favorite tracks and unique listens.
-- Day-wise & Hourly Usage: Understand when you listen to music the most.
-- Listening Time Stats: Get statistics on your total and average listening time.
-- Additional Insights: Generate word clouds of your top artists for a visual treat.
+## Current limitations
 
+This is an exploratory analysis project. It expects a non-empty dataset with valid timestamps and the fields required by the selected analysis. Missing artist, track, or duration fields can prevent some views from running. Duration calculations are intended for individual song plays; audit the conversion before using unusual long-duration records. Charts describe the uploaded data and are not a statement about Spotify's full catalogue.
 
-## 🤝 Contributing
+For personal listening history, run locally if you do not want to upload it to the hosted application.
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
+## Validation
 
-1. Fork the Project
-2. Create your Feature Branch (git checkout -b feature/AmazingFeature)
-3. Commit your Changes (git commit -m 'Add some AmazingFeature')
-4. Push to the Branch (git push origin feature/AmazingFeature)
-5. Open a Pull Request
+The empty state, demo selection, all five analysis options, and return to the empty state were smoke-checked using Streamlit's app testing interface. These checks cover the included sample dataset; they do not establish support for every Spotify export format.
 
-## 👥 Co-authored by VijaySreekar,GanapathiThota
+## Contributing
+
+For a bug report, include the failing analysis and a small synthetic example that reproduces it. Avoid attaching personal listening history. For changes, describe the behavior and how you checked it, and preserve the project’s coauthor credit.

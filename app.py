@@ -1,10 +1,10 @@
 import streamlit as st
+from pathlib import Path
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from wordcloud import WordCloud
-import jovian
 
 
 st.set_page_config(
@@ -24,6 +24,10 @@ uploaded_file = st.sidebar.file_uploader(
     "Upload your Spotify Streaming History JSON or CSV file",
     type=["json", "csv"]
 )
+
+use_demo = st.sidebar.checkbox("Explore a fictional demo dataset", value=False)
+if use_demo:
+    st.sidebar.caption("714 fictional plays. Artist names, tracks, and listening history are sample data.")
 
 # Sidebar option for delimiter (only applicable for CSV)
 delimiter_option = None
@@ -76,7 +80,11 @@ def load_data(file, delimiter=None):
     return None
 
 # Load data with selected delimiter
-df = load_data(uploaded_file, custom_delimiter)
+if use_demo:
+    with (Path(__file__).parent / "sample_data" / "portfolio-demo.json").open() as demo_file:
+        df = load_data(demo_file)
+else:
+    df = load_data(uploaded_file, custom_delimiter)
 
 if df is not None:
     st.success("Data successfully loaded!")
